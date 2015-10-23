@@ -16,7 +16,7 @@ Our target project is Joda-time which provides a replacement for Java date and t
 
 ## Test Section:
 
-### Task 1: The ability to run unit tests, measure coverage, and report the results.
+#### Task 1: The ability to run unit tests, measure coverage, and report the results.
 
 * The unit tests were run using SureFire which is inbuilt available in our target project.
 * To measure coverage, we used Jacoco tool. Jacoco has a plugin for Jenkins. We installed this plugin and added the following lines in the pom.xml file of our Maven project:
@@ -47,7 +47,7 @@ Our target project is Joda-time which provides a replacement for Java date and t
 
 
 
-### Task 2: The ability to improve testing coverage using one of the techniques covered in class: constraint-based test generation, fuzzing, etc.
+#### Task 2: The ability to improve testing coverage using one of the techniques covered in class: constraint-based test generation, fuzzing, etc.
 
 * We are implementing constrainst-based test generation for this ability. We used EvoSuite, which allows custom testing coverage.
 * We installed the Maven plugin for EvoSuite. EvoSuite generates additional test cases and thus improves the coverage.
@@ -101,7 +101,7 @@ Our target project is Joda-time which provides a replacement for Java date and t
 
 ## Analysis Section:
 
-### Task 3: The ability to run an existing static analysis tool on the source code process its results, and report its findings.
+#### Task 3: The ability to run an existing static analysis tool on the source code process its results, and report its findings.
 
 * For this capability, we used the static analysis tool called FindBugs. We have a plugin in Jenkins for FindBugs. 
 * We installed this plugin and added the follwing lines in the pom.xml file of our Maven project.
@@ -138,7 +138,7 @@ Our target project is Joda-time which provides a replacement for Java date and t
 </plugin>
 ```
 
-### Task 4: The ability to extend an existing analysis tool with a custom analysis, or implement a new analysis from scratch. 
+#### Task 4: The ability to extend an existing analysis tool with a custom analysis, or implement a new analysis from scratch. 
 * We wrote a java program to find the ratio of the number of comments to the number of lines of code.
 * This program is executed from the pre-commit script:
 
@@ -146,18 +146,18 @@ Our target project is Joda-time which provides a replacement for Java date and t
 
 ```
 
-### Task 5: Using hooks or post-build scripts, have the ability to reject a commit if it fails a minimum testing criteria and analysis criteria.
+#### Task 5: Using hooks or post-build scripts, have the ability to reject a commit if it fails a minimum testing criteria and analysis criteria.
 
 * We used a post-build script for this ability. 
  
 
-### Task 6: 
-### The ability to parse code files and json files in order to detect the presence of AWS/digital ocean security tokens and The ability to check commited files that are private ssh keys. 
+#### Task 6: 
+#### The ability to parse code files and json files in order to detect the presence of AWS/digital ocean security tokens and The ability to check commited files that are private ssh keys. 
 
 * We wrote a python script to iteratively check all files to find the ones with extensions like .pem, .key, etc. and to check the presence of AWS/digital ocean security tokens in the code using Regular Expressions.
 * It returns true if it finds such vulnerable information and false otherwise.
 
-### Using hooks, reject the commit if any violation occurs.
+#### Using hooks, reject the commit if any violation occurs.
 
 
 
