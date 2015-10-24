@@ -14,6 +14,7 @@ Our target project is Joda-time which provides a replacement for Java date and t
 * Make a new Maven project and add the path to pom.xml file of target project.
 * Build the project.
 
+##### Link for demo video: [demo](www.youtube.com)
 ## Test Section:
 
 #### Task 1: The ability to run unit tests, measure coverage, and report the results.
@@ -22,154 +23,108 @@ Our target project is Joda-time which provides a replacement for Java date and t
 * To measure coverage, we used Jacoco tool. Jacoco has a plugin for Jenkins. We installed this plugin and added the following lines in the pom.xml file of our Maven project:
 ```
 <plugin>
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.7.4.201502262128</version>
-          <executions>
-              <execution>
-                  <id>default-prepare-agent</id>
-                  <phase>process-resources</phase>
-                  <goals>
-                      <goal>prepare-agent</goal>
-                  </goals>
-              </execution>
-              <execution>
-                  <id>default-report</id>
-                  <phase>test</phase>
-                  <goals>
-                      <goal>report</goal>
-                  </goals>
-              </execution>
-              </executions>
-      </plugin>
+    <groupId>org.jacoco</groupId>
+    <artifactId>jacoco-maven-plugin</artifactId>
+    <version>0.7.4.201502262128</version>
+    <executions>
+        <execution>
+            <id>default-prepare-agent</id>
+            <phase>process-resources</phase>
+            <goals>
+                <goal>prepare-agent</goal>
+            </goals>
+        </execution>
+        <execution>
+            <id>default-report</id>
+            <phase>test</phase>
+            <goals>
+                <goal>report</goal>
+            </goals>
+        </execution>
+              
+    </executions>
+</plugin>
 ```
-
-
-
 
 #### Task 2: The ability to improve testing coverage using one of the techniques covered in class: constraint-based test generation, fuzzing, etc.
 
-* We are implementing constrainst-based test generation for this ability. We used EvoSuite, which allows custom testing coverage.
-* We installed the Maven plugin for EvoSuite. EvoSuite generates additional test cases and thus improves the coverage.
+* We are implementing constrainst-based test generation for this ability. We used EvoSuite, which allows automatic test generation for java.
+* We are manually generating EvoSuite test cases but running it using evosuite run time which we have added in pom.xml file. EvoSuite generates additional test cases and thus improves the coverage.
 * Added the follwing lines in pom.xml file:
 ```
-<plugins>
-<plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <includes>
-            <include>**/TestAllPackages.java</include>
-            <include>**/*ESTest.java</include>
-          </includes>
-          <!-- <properties>
-           <property>
-              <name>listener</name>
-              <value>org.evosuite.runtime.InitializingListener</value>
-          </property>
-         </properties> -->
-        </configuration>
-</plugin>
-</plugins>
-
 <dependencies>
     <dependency>
-      <groupId>org.evosuite</groupId>
-      <artifactId>evosuite-standalone-runtime</artifactId>
-      <version>${evosuiteVersion}</version>
-      <scope>test</scope>
+        <groupId>org.evosuite</groupId>
+        <artifactId>evosuite-standalone-runtime</artifactId>
+        <version>${evosuiteVersion}</version>
+        <scope>test</scope>
     </dependency>
-</dependencies>   
+</dependencies>
 
-<pluginRepositories>
-    <pluginRepository>
-      <id>EvoSuite</id>
-      <name>EvoSuite Repository</name>
-      <url>http://www.evosuite.org/m2</url>
-    </pluginRepository>
-  </pluginRepositories>
-
-  <repositories>
-     <repository>
-       <id>EvoSuite</id>
-       <name>EvoSuite Repository</name>
-       <url>http://www.evosuite.org/m2</url>
-     </repository>
-  </repositories>
+<repositories>
+    <repository>
+        <id>EvoSuite</id>
+        <name>EvoSuite Repository</name>
+        <url>http://www.evosuite.org/m2</url>
+    </repository>
+</repositories>
 ```
-* After running EvoSuite, the coverage for this file increased to _ percent from 0%.
+* After running EvoSuite, the coverage for this file ```DelegatedDurationField.java``` increased to 97% percent from 0%.
 
 ## Analysis Section:
 
 #### Task 3: The ability to run an existing static analysis tool on the source code process its results, and report its findings.
 
-* For this capability, we used the static analysis tool called FindBugs. We have a plugin in Jenkins for FindBugs. 
+* For this capability, we are using the static analysis tool called FindBugs. We have a plugin in Jenkins for FindBugs. 
 * We installed this plugin and added the follwing lines in the pom.xml file of our Maven project.
 ```
 <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>findbugs-maven-plugin</artifactId>
-          <version>3.0.1</version>
-          <configuration>
-              <!--
-                  Enables analysis which takes more memory but finds more bugs.
-                  If you run out of memory, changes the value of the effort element
-                  to 'low'.
-              -->
-              <effort>Max</effort>
-              <!-- Reports all bugs (other values are medium and max) -->
-              <threshold>Low</threshold>
-              <!-- Produces XML report -->
-              <xmlOutput>true</xmlOutput>
-              <failOnError>false</failOnError>
-          </configuration>
-          <executions>
-              <!-- 
-                  Ensures that FindBugs inspects source code when project is compiled. 
-              -->
-              <execution>
-                  <id>analyze-compile</id>
-                  <phase>compile</phase>
-                  <goals>
-                      <goal>check</goal>
-                  </goals>
-              </execution>
-          </executions>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>findbugs-maven-plugin</artifactId>
+    <version>3.0.1</version>
+    <configuration>
+        <effort>Max</effort>
+        <threshold>Low</threshold>
+        <xmlOutput>true</xmlOutput>
+        <failOnError>false</failOnError>
+    </configuration>
+    <executions>
+        <execution>
+            <id>analyze-compile</id>
+            <phase>compile</phase>
+            <goals>
+                <goal>check</goal>
+            </goals>
+        </execution>
+    </executions>
 </plugin>
 ```
 
 #### Task 4: The ability to extend an existing analysis tool with a custom analysis, or implement a new analysis from scratch. 
 * We wrote a java program to find the ratio of the number of comments to the number of lines of code.
-* This program is executed from the pre-commit script:
+* This program is executed in pre-commit script and it writes output as filename followed by percentComments to a file tempFiles/commentFiles.txt as follows
 
 ```
+.git/../src/main/java/org/joda/time/DateTime.java 68%
+.git/../src/main/java/org/joda/time/Days.java 61%
+.git/../src/main/java/org/joda/time/Hours.java 60%
+...
 
 ```
 
 #### Task 5: Using hooks or post-build scripts, have the ability to reject a commit if it fails a minimum testing criteria and analysis criteria.
 
-* We used a post-build script for this ability. 
+* Since we are using maven-surefire-plugin, it makes sure that build is failed if any of the test cases failed.
+![surefire](http://s15.postimg.org/699iq9s4b/cutout.png)
+* For our custom rule we are not failing a build since joda-time code base contains lost of files having more than 50% comment raio. Thus we are just writing such file names with their comment ration in tempFiles/commentFiles.txt as specified in Task 4.
  
 
 #### Task 6: 
 #### The ability to parse code files and json files in order to detect the presence of AWS/digital ocean security tokens and The ability to check commited files that are private ssh keys. 
 
-* We wrote a python script to iteratively check all files to find the ones with extensions like .pem, .key, etc. and to check the presence of AWS/digital ocean security tokens in the code using Regular Expressions.
+* We wrote a script to iteratively check all files to find the ones with extensions like .pem, .key, etc. and a python script to check the presence of AWS/digital ocean security tokens in the code using Regular Expressions.
 * It returns true if it finds such vulnerable information and false otherwise.
 
+
 #### Using hooks, reject the commit if any violation occurs.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+* This scripts are called in pre-commit. So if any of such files are found then we are failing a build in pre-commit.
