@@ -1,0 +1,72 @@
+#!/bin/sh
+echo "pre-commit started..."
+# finding all files that are probable security files i.e. .pem, .key etc.
+echo "Checking if repository contains any key files."
+keyFiles=$(find $GIT_DIR/.. -regex ".*\.\(csr\|pem\|key\|pkcs12\|pfx\|p12\|der\|cert\|cer\|crt\|p7b\|crl\)")
+boolkey=0
+for keyFile in $keyFiles
+do	
+	echo $keyFiles > "$GIT_DIR/../tempFiles/keyFiles.txt"
+	boolkey=1
+done
+if [ $boolkey -gt 0 ] 
+then
+	echo "This repository contains probable key files mentioned below. Please remove them. Aborting the commit."
+	echo $keyFiles
+	exit 1
+else
+	echo "No"
+fi
+
+
+
+# finding all files that contains probable security keys hardcoded inside java files
+echo "Checking if any file contains hardcoded security key."
+keyOutput=$(python $GIT_DIR/../tempFiles/findSecurityKeys.py "$GIT_DIR/..")
+# echo $keyOutput
+keyText=`echo $keyOutput | cut -b 1-5`
+if [ $keyText = "true" ]
+then
+	len=${#keyOutput}
+	file=`echo $keyOutput | cut -b 6-$len`
+	echo $file "contains probable security key. Please remove it. Aborting the commit."
+	exit 1
+else
+	echo "No"
+fi
+
+
+
+# Checking the comment lines ratio to lines of code and echo on screen
+fileSrc=$(find $GIT_DIR/../src/main/java -name "*.java")
+rm $GIT_DIR/../tempFiles/commentFiles.txt
+echo "Checking for files having comment ratio of more than 50%. Such files will be written to ./tempFiles/commentFiles.txt."
+for filename in $fileSrc
+do
+	commentRatio=$(java -classpath $GIT_DIR/../tempFiles canalysis $filename)
+	commentRatio2=`echo $commentRatio | bc`
+	if [ $commentRatio2 -gt 50 ]
+	then
+		echo $filename $commentRatio2"%" >> "$GIT_DIR/../tempFiles/commentFiles.txt"
+	fi
+done
+echo "Done with custom rule checking for each java file."
+
+
+
+# Checking the status of last build and writing it to file buildLog.txt in hooks
+lastBuildJson=$(curl -sb -H "Accept: application/json" http://127.0.0.1:8080/job/joda-time/lastBuild/api/json)
+
+lastBuildId=$(echo $lastBuildJson | grep -E -o \"number\":[0-9]*)
+len=${#lastBuildId}
+lastBuildId=`echo $lastBuildId | cut -b 10-$len`
+#echo $lastBuildId
+
+lastBuildStatus=$(echo $lastBuildJson | grep -E -o \"result\":\"[A-Z]*)
+len=${#lastBuildStatus}
+lastBuildStatus=`echo $lastBuildStatus | cut -b 11-$len`
+#echo $lastBuildStatus
+
+echo $lastBuildId"\n"$lastBuildStatus > $GIT_DIR/../tempFiles/oldBuild.txt
+
+echo "pre-commit ended..."

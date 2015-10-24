@@ -14,7 +14,7 @@ Our target project is Joda-time which provides a replacement for Java date and t
 * Make a new Maven project and add the path to pom.xml file of target project.
 * Build the project.
 
-##### Link for demo video: [demo](www.youtube.com)
+##### Link for demo video: [demo](https://youtu.be/_uKcZ68DrrE)
 ## Test Section:
 
 #### Task 1: The ability to run unit tests, measure coverage, and report the results.
@@ -69,7 +69,7 @@ Our target project is Joda-time which provides a replacement for Java date and t
     </repository>
 </repositories>
 ```
-* After running EvoSuite, the coverage for this file ```DelegatedDurationField.java``` increased to 97% percent from 0%.
+* We are not running EvoSuite on all the  java files. Since this library contains 167 code files and 4177 test casese. So running EvoSuite on each file would generate lot of test cases. Thus we are running it on only one file ```DelegatedDurationField.java``` whose test coverage is 0% initially.  After running EvoSuite, the coverage for this file ```DelegatedDurationField.java``` increased to 97% percent from 0%.
 
 ## Analysis Section:
 
@@ -128,3 +128,4 @@ Our target project is Joda-time which provides a replacement for Java date and t
 
 #### Using hooks, reject the commit if any violation occurs.
 * This scripts are called in pre-commit. So if any of such files are found then we are failing a build in pre-commit.
+* pre-commit and post-commit files are added in ./tempFiles/ folder.

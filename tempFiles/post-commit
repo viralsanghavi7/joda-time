@@ -1,0 +1,63 @@
+#!/bin/sh
+
+echo "post-commit started..."
+#read previous build in ./previousBuild file
+val=$(cat $GIT_DIR/../tempFiles/oldBuild.txt)
+prevbuildnum=$(echo $val | awk '{ print $1 }')
+echo "Previous build number:" $prevbuildnum
+
+
+#run the latest build
+echo "Sent a new build request..."
+curl http://127.0.0.1:8080/job/joda-time/build
+sleep 25
+echo "Waiting for new build to complete..."
+
+
+# c) read file to get current build number and status
+while true
+do
+	# get the id of last build
+	lastBuildJson=$(curl -sb -H "Accept: application/json" http://127.0.0.1:8080/job/joda-time/lastBuild/api/json)
+
+	lastBuildId=$(echo $lastBuildJson | grep -E -o \"number\":[0-9]*)
+	len=${#lastBuildId}
+	lastBuildId=`echo $lastBuildId | cut -b 10-$len`
+	lastBuildId=`echo $lastBuildId | bc`
+
+	if [ $lastBuildId -eq $prevbuildnum ]
+	then
+		sleep 5
+	else
+		lastBuildStatus=$(echo $lastBuildJson | grep -E -o \"result\":\"[A-Z]*)		
+		len=${#lastBuildStatus}
+		if [ $len -gt 0 ]
+		then
+			echo "New build completed... :)"
+			lastBuildStatus=`echo $lastBuildStatus | cut -b 11-$len`
+			echo "latest Build number:" $lastBuildId
+			echo "latest Build Status:" $lastBuildStatus			
+			break
+		else
+			echo "still waiting... :/"
+			sleep 25
+			continue
+		fi
+	fi
+done
+
+
+
+s="SUCCESS"
+if [ $lastBuildStatus = $s ]
+then
+	echo "Commit pushed successfully with build also successful"
+else
+	git reset --soft HEAD~1
+	echo "Build was not successful. Commit was rolled back"
+fi
+
+
+echo $lastBuildId"\n"$lastBuildStatus > $GIT_DIR/../tempFiles/oldBuild.txt
+
+echo "post-commit ended..."
