@@ -520,7 +520,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-site-plugin</artifactId>
         <configuration>
-          <skipDeploy>true</skipDeploy>
+          <!-- <skipDeploy>true</skipDeploy> -->
+          <port>9000</port>
         </configuration>
         <dependencies>
           <dependency>
