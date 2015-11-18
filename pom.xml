@@ -733,6 +733,11 @@
       <optional>true</optional><!-- mandatory in Scala -->
     </dependency>
     <dependency>
+      <groupId>biz.paluch.redis</groupId>
+      <artifactId>lettuce</artifactId>
+      <version>3.3.1.Final</version>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.12</version>

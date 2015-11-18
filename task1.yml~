@@ -1,0 +1,59 @@
+--- 
+- 
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  
+  tasks: 
+    - 
+      ec2: 
+        image: ami-1c552a76
+        instance_type: t2.micro
+        key_name: milestone3
+        region: us-east-1
+        wait: true
+        #state: running
+        exact_count: 1
+        count_tag:
+          Name: M3
+        instance_tags:
+          Name: M3
+
+      name: "Provision a set of instances"
+      
+      register: ec2
+
+    - pause: minutes=5 
+    - 
+      name: "Add all instance public IPs to host group"
+      add_host: "hostname={{ item.public_ip }} groups=ec2hosts"
+      with_items: ec2.instances
+
+    - 
+      name: get ip
+#      shell: echo {{ item.public_ip }}
+      shell: echo ec2.instances
+      register: myecho
+      with_items: ec2.instances
+      
+
+    #- debug: msg="{{myecho.stdout}}"
+    
+
+
+- 
+  
+  hosts: ec2hosts
+  gather_facts: false
+  name: configuration play
+  user: ubuntu
+  tasks: 
+    - 
+      name: "Installs maven"
+      sudo: yes
+      apt: "pkg=maven state=installed update_cache=true"
+      apt: "pkg=unzip state=installed update_cache=true"
+      apt: "pkg=default-jdk state=installed update_cache=true"
+      apt: "pkg=default-jdk state=installed update_cache=true"
+      
+  
