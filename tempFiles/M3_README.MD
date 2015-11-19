@@ -8,7 +8,7 @@
 
 ### Capabilities:
 
-Our target project is [joda-time] https://github.com/JodaOrg/joda-time
+Our target project is [joda-time] (https://github.com/JodaOrg/joda-time)
 
 #### Automatic configuration of production environment
 
@@ -53,7 +53,26 @@ Both the scripts M3.sh and aws_tasks.sh are run from the post-commit hook whose 
 
 #### Feature Flags
 
+We created a new feauture FeautureFlag.java which prints the date.
+
+The file ConnectToRedis.java does the connection to redis.
+
+If the feauture flag is true, the date is printed otherwise not. 
+
 #### Metrics and alerts
 
+AWS provides CloudWatch Alarms which enables to monitor the instances based on certain parameters like CPU Utilization, Disk Read/Write Operations, System Check Failed, etc.
+ 
+For our capability, we chose the metrics CPU Utilization and Disk Write Operations.
+
+The alarm was set for CPU utilization with a threshold of    . If the threshold is surpassed, an alert in the form of an email is sent.
+
+Similarly for Disk Write Operation, the alarm was set with a threshold of    .
 
 #### Canary releasing
+
+We created a load balancer from the AWS Management Console. The ec2 instances were then added to this load balancer.
+
+The load balancer balances the load between the two servers.
+
+If one of the servers shuts down, the load balancer routes the traffic to only the live one.
