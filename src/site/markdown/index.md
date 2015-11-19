@@ -20,6 +20,7 @@ A selection of key features:
 * `Duration` and `Period` - amounts of time
 * `Interval` - the time between two instants
 * A comprehensive and flexible formatter-parser
+* New feature
 
 
 ## <i></i> Documentation

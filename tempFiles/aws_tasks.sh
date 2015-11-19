@@ -5,8 +5,8 @@ tar -zxvf ~/joda-time.tgz
 tar -zxvf ~/redis-stable.tgz
 
 # run redis server on aws instance. It will run on port 6379
-./redis-stable/src/redis-server
+nohup ./redis-stable/src/redis-server </dev/null &>/dev/null &
 
 cd joda-time
 
-mvn site:run
+nohup mvn site:run </dev/null &>/dev/null &

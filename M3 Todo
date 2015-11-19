@@ -7,7 +7,7 @@ Things to do for M3:
 			- Create ec2 instance if there isn't any.
 			- Install maven and jdk on that instance
 	3.2 Run node $GIT_DIR/../tempFiles/M3.sh
-		
+
 		3.2.1 Get the IP of recently created instance.
 		3.2.2 Zip the current joda-time folder and put it in ~/DevOps/viral/joda-time.tgz
 		3.2.3 copy joda-time.tgz to aws instance
@@ -18,3 +18,5 @@ Things to do for M3:
 		3.3.1 Untar joda-time.tgz to joda-time folder
 		3.3.2 Untar redis-stable.tgz to redis-stable folder
 		3.3.3 start the redis server from the extracted folder
+
+
