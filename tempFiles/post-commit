@@ -54,7 +54,7 @@ then
 	echo "Commit pushed successfully with build also successful"
 	cd $GIT_DIR/../tempFiles/
 	ansible-playbook -i ec2.py task1.yml --private-key ~/Downloads/devops3.pem
-	#ansible-playbook -i ec2.py load_balancer.yml --private-key ~/Downloads/devops3.pem	
+	#ansible-playbook -i ec2.py task5.yml --private-key ~/Downloads/devops3.pem	
 	./M3.sh
 	ansible -i ec2.py --private-key ~/Downloads/devops3.pem -u ubuntu us-east-1 -a /home/ubuntu/aws_tasks.sh -m shell
 else
