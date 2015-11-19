@@ -53,7 +53,7 @@ Both the scripts M3.sh and aws_tasks.sh are run from the post-commit hook whose 
 
 #### Feature Flags
 
-We created a new feauture FeautureFlag.java which prints the date.
+We created a new feauture FeatureFlag.java which prints the date.
 
 The file ConnectToRedis.java does the connection to redis.
 
