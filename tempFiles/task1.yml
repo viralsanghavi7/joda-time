@@ -36,6 +36,7 @@
         timeout: 320 
         state: started
       with_items: ec2.instances
+
 - 
   hosts: ec2hosts
   gather_facts: false
