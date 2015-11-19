@@ -2,9 +2,9 @@
 
 #### Team Members:
 
-1. Chetan Pawar
-2. Viralkumar Sanghvi
-3. Payal Soman
+1. Chetan Pawar (chpawar@ncsu.edu)
+2. Viralkumar Sanghvi (vjsangha@ncsu.edu)
+3. Payal Soman (prsoman@ncsu.edu)
 
 ### Capabilities:
 
