@@ -36,15 +36,3 @@
         timeout: 320 
         state: started
       with_items: ec2.instances
-
-- 
-  hosts: devopshosts
-  gather_facts: false
-  name: configuration play
-  user: ubuntu
-  tasks: 
-    - 
-      name: "Installs maven and jdk"
-      sudo: yes
-      apt: "pkg=default-jdk state=installed update_cache=true"
-      apt: "pkg=maven state=installed update_cache=true"      

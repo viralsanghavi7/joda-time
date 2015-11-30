@@ -57,6 +57,7 @@ then
 	#ansible-playbook -i ec2.py task5.yml --private-key ~/Downloads/devops3.pem	
 	./M3.sh
 	ansible -i ec2.py --private-key ~/Downloads/devops3.pem -u ubuntu us-east-1 -a /home/ubuntu/aws_tasks.sh -m shell
+	ansible -i ec2.py --private-key ~/Downloads/devops3.pem -u ubuntu us-east-1 -a /home/ubuntu/startSite.sh -m shell
 else
 	git reset --soft HEAD~1
 	echo "Build was not successful. Commit was rolled back"

@@ -23,7 +23,7 @@
 
     - 
       name: "Add all instance public IPs to host group"
-      add_host: "hostname={{ item.public_ip }} groups=ec2hosts"
+      add_host: "hostname={{ item.public_ip }} groups=devopshosts"
       with_items: ec2.instances
 
     - 
@@ -38,7 +38,7 @@
       with_items: ec2.instances
 
 - 
-  hosts: ec2hosts
+  hosts: devopshosts
   gather_facts: false
   name: configuration play
   user: ubuntu

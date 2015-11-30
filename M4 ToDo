@@ -1,0 +1,8 @@
+- Restart monkey
+- Commit to a repo. It will create a new instance with task1.yml
+- add some new feature and create new instance for that with task5.yml
+- Add created 2 instances to load balancer. So we have two instances and one load balancer exposing sight.
+- create ansible playbook restart.yml to stop existing instances and again start two instances.
+- create a shell script called restartMonkey.sh to run ansible playbook restart.yml
+	ansible-playbook -i ec2.py restart.yml --private-key ~/Downloads/devops3.pem
+- next line in restartMonkey.sh would be to execute mvn site:run command on both above instances.
