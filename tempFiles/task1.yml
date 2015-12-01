@@ -47,4 +47,5 @@
       name: "Installs maven and jdk"
       sudo: yes
       apt: "pkg=default-jdk state=installed update_cache=true"
+      #apt: "pkg=openjdk-7-jre state=installed update_cache=true"
       apt: "pkg=maven state=installed update_cache=true"      
