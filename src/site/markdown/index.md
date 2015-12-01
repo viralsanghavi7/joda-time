@@ -8,7 +8,7 @@ From Java SE 8 onwards, users are asked to migrate to `java.time` (JSR-310).
 Joda-Time is licensed under the business-friendly [Apache 2.0 licence](license.html).
 
 
-## <i></i> New Features 123
+## <i></i> Features
 
 A selection of key features:
 
