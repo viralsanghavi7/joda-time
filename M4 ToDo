@@ -6,3 +6,23 @@
 - create a shell script called restartMonkey.sh to run ansible playbook restart.yml
 	ansible-playbook -i ec2.py restart.yml --private-key ~/Downloads/devops3.pem
 - next line in restartMonkey.sh would be to execute mvn site:run command on both above instances.
+
+
+ec2-54-165-191-91.compute-1.amazonaws.com
+
+---------------------------------------------------------------------------------
+Hello everyone,
+This video is a final demo for the project of CSC591, DevOps course.
+For this project, we chose joda-time library. Joda-time is date and time library for java. It provides extended and easy to use methods, when it comes to using features like calendar, date-time, timezones related functions in your code. Links for website and github repo are given above. So cloned this repo and started working on it.
+
+As part of the three milestones, we did lot of things. Here are some of the important ones we would highlight. In milestone 1, we had to create a build server working in response to events like git commit or git push. To employ continuous integration in our project, we chose jenkins and configured our project to build on jenkins. Jenkins has lot of features like it shows your history of builds and comes with different plugins which we used later. Pre-commit and post-commit hooks were used to automatically trigger jenkins build and other tasks like sending email notifications for build failures etc.
+
+Second milestone was related to Test and analysis. We have used surefire to run all the test cases and genearting elaborative reports. Jacoco plugin was used in jenkins to show test coverage report. To improve code coverage, Evosuite was chosen. It is fairly new tool but it automatically generated around 60-70 more test cases and helped improving the code coverage. Findbugs static analysis tool could find around 77 total code bugs of different priorities. To add custom analysis we decided to go for finding code to comment ratio for all the files. Our newly written CommentAnalysis.java file could differentiate between comment lines and code lines and give the comment ratio for all the files.
+
+Third milestone was deployment. Using ansible we created instances on amazon AWS and pushed our code to those server and have our site up and running with simple playbooks and shell scripts. Redis flags was used for toggling features. Canary release server was newly created and load balancer was used to switch traffic between canary release server and production server.
+
+Well, next is our special milestone with a special image. For this milestone, we decided to go for restart monkey for our joda-time application. People might hate this but sometimes a need arises to reboot your server and there comes the idea of restart monkey. It restarts a server and once it is successfully booted, checks if service is properly restarted or not. So in our case, we simply restarted our AWS instance with ansible playbook, then it waits for server to come back up, runs the required services again and checks if they up or not by simply doing a curl command to the website. So in this video I am running a script called restartMonkey.sh. In AWS console, you can see that server is stopping, after few moments then it is coming back up. Once the server is up another shell script is run which will just make the site up and running using mvn site command on port 9000 and wait for it to become available. Once the site is available, restartMonkey will simply be running a javascript program to curl to the public DNS of the instance and check for the response code. If the response code is 200 then all good, service is up and running. Otherwise, we are just displaying the message that service is not up, something wrong!!!.
+
+Thats all from our side. Thank you so much for listening!!! Any questions are welcome here.
+
+
