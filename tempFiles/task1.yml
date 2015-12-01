@@ -13,7 +13,7 @@
         region: us-east-1
         wait: yes
         #state: running
-        exact_count: 2
+        exact_count: 1
         count_tag:
           Name: M3
         instance_tags:
