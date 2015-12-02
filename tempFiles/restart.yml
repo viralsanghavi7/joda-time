@@ -1,52 +1,43 @@
 --- 
-# - 
-#   name: restart machine
-#   hosts: security_group_*
-#   connection: local
-#   gather_facts: true
-#   tasks:
-#     - 
-#       command: shutdown -r now "Restart monkey triggered"
-#       async: 0
-#       poll: 0
-#       ignore_errors: true
-# - 
-#   name: "stopping running instances"
-#   hosts: security_group_*
-#   connection: local
-#   gather_facts: true
-#   vars:
-#     region: "us-east-1"
-#   tasks:
-#     - 
-#       name: "stopping instance {{ ec2_id }}"
-#       ec2:
-#         region: '{{ region }}'
-#         instance_tags:
-#           Name: M3     
-#         state: stopped
-#         wait: True
-#         instance_ids: '{{ ec2_id }}'
+- 
+  name: "stopping running instances"
+  hosts: security_group_*
+  connection: local
+  gather_facts: true
+  vars:
+    region: "us-east-1"
+  tasks:
+    - 
+      name: "stopping instance {{ ec2_id }}"
+      ec2:
+        region: '{{ region }}'
+        instance_tags:
+          Name: M3     
+        state: stopped
+        wait: True
+        instance_ids: '{{ ec2_id }}'
 
-# - 
-#   name: "starting stopped instances"
-#   hosts: security_group_*
-#   connection: local
-#   gather_facts: true
-#   vars:
-#     region: "us-east-1"
-#   tasks:
-#     - 
-#       name: "starting instances {{ ec2_id }}"
-#       ec2:
-#         region: '{{ region }}'
-#         instance_tags:
-#           Name: M3     
-#         state: running
-#         wait: True
-#         instance_ids: '{{ ec2_id }}'
+- 
+  name: "starting stopped instances"
+  hosts: security_group_*
+  connection: local
+  gather_facts: true
+  vars:
+    region: "us-east-1"
+  tasks:
+    - 
+      name: "starting instances {{ ec2_id }}"
+      ec2:
+        region: '{{ region }}'
+        instance_tags:
+          Name: M3     
+        state: running
+        wait: True
+        instance_ids: '{{ ec2_id }}'
+
+
     # - 
-    #   name: Wait for server to restart
+    #   name: Wait for ssh port to be available
     #   local_action:
     #     module: wait_for
     #     host: "{{ ec2_id }}"
@@ -56,14 +47,3 @@
     #     state: started
     #     sudo: false
 
-- 
-  name: restart ec2 instance
-  hosts: tag_Name_M3
-  connection: local
-  gather_facts: true
-  tasks:
-    - 
-      command: shutdown -r now "Restart monkey triggered"
-      async: 0
-      poll: 0
-      ignore_errors: true

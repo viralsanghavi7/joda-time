@@ -8,8 +8,6 @@
 - next line in restartMonkey.sh would be to execute mvn site:run command on both above instances.
 
 
-ec2-54-165-191-91.compute-1.amazonaws.com
-
 ---------------------------------------------------------------------------------
 Hello everyone,
 This video is a final demo for the project of CSC591, DevOps course.
